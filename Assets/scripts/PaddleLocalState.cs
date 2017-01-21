@@ -10,7 +10,7 @@ public class PaddleLocalState : NetworkBehaviour {
     void Start ()
     {
 	    teamNumber = 0;
-        position = new Vector2(50, 100);
+//        position = new Vector2(50, 100);
 	}
 	
 	void Update ()
