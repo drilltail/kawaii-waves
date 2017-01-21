@@ -1,21 +1,25 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PaddleLocalState : NetworkBehaviour {
+    private float upwardsMin   = 480 - 200;
+    private float upwardsMax   = 480;
+    private float downwardsMin = 0;
+    private float downwardsMax = 200;
 
-    public int teamNumber;
-    public int directionInput;
+    [SyncVar]
+    public float inputMagnitude;
 
     void Start ()
     {
-	    teamNumber = 0;
-        position = new Vector2(50, 100);
+	    inputMagnitude = 0;
 	}
 	
 	void Update ()
     {
-	    if(!isServer && hasAuthority)
+	    if(!isServer)
         {
             UpdateInput();
         }
@@ -23,24 +27,34 @@ public class PaddleLocalState : NetworkBehaviour {
 
     void UpdateInput()
     {
+        float newMagnitude = 0;
+
         if(Input.touchCount > 0)
         {
-            if(Input.GetTouch(0).position.y > 100)
+            Vector2 touchPosition = Input.GetTouch(0).position;
+
+            if(touchPosition.y > upwardsMin)
             {
-                directionInput = 1;
+                newMagnitude = (touchPosition.y - upwardsMin) / (upwardsMax - upwardsMin);
             }
-            else if(Input.GetTouch(0).position.y < 100)
+            else if(touchPosition.y < downwardsMax)
             {
-                directionInput = -1;
-            }
-            else
-            {
-                directionInput = 0;
+                newMagnitude = (downwardsMax - touchPosition.y) / (downwardsMax - downwardsMin);
             }
         }
-        else
+
+        // TODO: do this less frequently than 60 Hz? why?
+        if(newMagnitude != inputMagnitude)
         {
-            directionInput = 0;
+            CmdSetInputMagnitude(newMagnitude);
         }
+
+        InputMagnitudeText.singleton.GetComponent<Text>().text = newMagnitude.ToString();
+    }
+
+    [Command]
+    public void CmdSetInputMagnitude(float magnitude)
+    {
+        inputMagnitude = magnitude;
     }
 }

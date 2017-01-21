@@ -1,0 +1,82 @@
+Initialize engine version: 5.5.0f3 (38b4efef76f0)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GT 650M   (ID=0xfd1)
+    Vendor:   NVIDIA
+    VRAM:     3072 MB
+    Driver:   10.18.13.6143
+Begin MonoManager ReloadAssembly
+Platform assembly: T:\Weave\kawaii-waves\kawaii-waves_client_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading T:\Weave\kawaii-waves\kawaii-waves_client_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: T:\Weave\kawaii-waves\kawaii-waves_client_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading T:\Weave\kawaii-waves\kawaii-waves_client_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: T:\Weave\kawaii-waves\kawaii-waves_client_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading T:\Weave\kawaii-waves\kawaii-waves_client_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: T:\Weave\kawaii-waves\kawaii-waves_client_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading T:\Weave\kawaii-waves\kawaii-waves_client_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: T:\Weave\kawaii-waves\kawaii-waves_client_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
+Loading T:\Weave\kawaii-waves\kawaii-waves_client_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
+- Completed reload, in  0.037 seconds
+Platform assembly: T:\Weave\kawaii-waves\kawaii-waves_client_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: T:\Weave\kawaii-waves\kawaii-waves_client_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 59Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 1.353167 ms
+StartServer: True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+meow~
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Log: connection {1} has been disconnected by timeout; address {::ffff:192.168.2.13:63951}
+ServerDisconnected due to error: Timeout
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+meow~
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Log: connection {1} has been disconnected by timeout; address {::ffff:192.168.2.13:57799}
+ServerDisconnected due to error: Timeout
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+meow~
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Log: connection {1} has been disconnected by timeout; address {::ffff:192.168.2.13:51838}
+ServerDisconnected due to error: Timeout
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+meow~
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Log: connection {1} has been disconnected by timeout; address {::ffff:192.168.2.13:51841}
+ServerDisconnected due to error: Timeout
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+meow~
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Log: connection {1} has been disconnected by timeout; address {::ffff:192.168.2.13:51842}
+ServerDisconnected due to error: Timeout
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+meow~
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 1658 -> priority: 1 
