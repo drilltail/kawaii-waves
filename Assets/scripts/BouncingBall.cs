@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class BouncingBall : MonoBehaviour {
 
+  public float speed = 10f;
+  public float angleBound = 70f;
+  public float angleVariance = 1f;
+
   float leftBound;
   float rightBound;
   float topBound;
   float bottomBound;
   Vector2 velUnit;
-  public float speed = 10;
   public Vector2 position2d {
     get { return new Vector2(transform.position.x, transform.position.y); }
     set { transform.position = new Vector3(value.x, value.y, transform.position.z); }
   }
+  private SpriteRenderer myRenderer;
 
 	// Use this for initialization
 	void Start () {
@@ -23,32 +27,41 @@ public class BouncingBall : MonoBehaviour {
     rightBound = viewWidth;
     bottomBound = -viewHeight;
     topBound = viewHeight;
-    velUnit = new Vector2(Random.value, Random.value);
+    velUnit = new Vector2(0,1).normalized;
+    myRenderer = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-    position2d += velUnit * speed;
-    if (transform.position.x < leftBound) {
-      transform.position = new Vector2(leftBound, transform.position.y);
+    position2d += velUnit * speed  * Time.smoothDeltaTime;
+    if (transform.position.x - myRenderer.bounds.extents.x < leftBound) {
+      transform.position = new Vector2(leftBound + myRenderer.bounds.extents.x, transform.position.y);
       velUnit.x *= -1;
-      velUnit.y += Random.Range(-1f, 1f);
-      velUnit.Normalize();
-    } else if (transform.position.x > rightBound) {
-      transform.position = new Vector2(rightBound, transform.position.y);
+      velUnit = (Quaternion.Euler(0, 0, Random.Range(-angleVariance, angleVariance)) * velUnit).normalized;
+      ClampAngle();
+    } else if (transform.position.x + myRenderer.bounds.extents.x > rightBound) {
+      transform.position = new Vector2(rightBound - myRenderer.bounds.extents.x, transform.position.y);
       velUnit.x *= -1;
-      velUnit.y += Random.Range(-1f, 1f);
-      velUnit.Normalize();
-    } if (transform.position.y < bottomBound) {
-      transform.position = new Vector2(transform.position.x, bottomBound);
+      velUnit = (Quaternion.Euler(0, 0, Random.Range(-angleVariance, angleVariance)) * velUnit).normalized;
+      ClampAngle();
+    } if (transform.position.y - myRenderer.bounds.extents.y < bottomBound) {
+      transform.position = new Vector2(transform.position.x, bottomBound + myRenderer.bounds.extents.y);
       velUnit.y *= -1;
-      velUnit.x += Random.Range(-1f, 1f);
-      velUnit.Normalize();
-    } else if (transform.position.y > topBound) {
-      transform.position = new Vector2(transform.position.x, topBound);
+      velUnit = (Quaternion.Euler(0, 0, Random.Range(-angleVariance, angleVariance)) * velUnit).normalized;
+      ClampAngle();
+    } else if (transform.position.y + myRenderer.bounds.extents.y > topBound) {
+      transform.position = new Vector2(transform.position.x, topBound - myRenderer.bounds.extents.y);
       velUnit.y *= -1;
-      velUnit.x += Random.Range(-1f, 1f);
-      velUnit.Normalize();
+      velUnit = (Quaternion.Euler(0, 0, Random.Range(-angleVariance, angleVariance)) * velUnit).normalized;
+      ClampAngle();
     }
 	}
+
+  void ClampAngle() {
+    float angle = Vector2.Angle(Vector2.right*Mathf.Sign(velUnit.x), velUnit);
+    if(angle > angleBound) {
+      angle = angle - angleBound;
+      velUnit = (Quaternion.Euler(0, 0, -angle*Mathf.Sign(velUnit.x)*Mathf.Sign(velUnit.y)) * velUnit).normalized;
+    }
+  }
 }
