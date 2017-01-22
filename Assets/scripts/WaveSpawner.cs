@@ -34,16 +34,19 @@ public class WaveSpawner : MonoBehaviour {
         float speed = Random.Range(minSpeed, maxSpeed);
         angle -= 90 * Mathf.Sign(yPos);
         wave.transform.position = new Vector3(xPos, yPos);
-        wave.GetComponent<ForceArea>().desiredSpeed = speed * 0.8f;
-        wave.GetComponent<ForceArea>().angle = angle;
-        wave.GetComponent<ForceArea>().acceleration = 10f * (speed/maxSpeed);
+        ForceArea forceArea = wave.GetComponent<ForceArea>();
+        forceArea.desiredSpeed = speed * 0.8f;
+        forceArea.angle = angle;
+        forceArea.acceleration = 10f * (speed/maxSpeed);
         StartCoroutine(MoveWave(wave, duration, angle, speed));
+        LevelState.singleton.waves.Add(forceArea);
       }
     }
 	}
 
   IEnumerator MoveWave (GameObject g, float duration, float angle, float speed) {
     for(float f = duration; f >= 0; f -= Time.smoothDeltaTime) {
+      if(g == null) break;
       Vector2 velocity = (Vector2) (Quaternion.Euler(0,0,angle) * Vector2.right * speed * Time.smoothDeltaTime);
       g.transform.position += (Vector3) velocity;
       yield return new WaitForFixedUpdate();

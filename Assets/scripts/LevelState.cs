@@ -127,11 +127,14 @@ public class LevelState : NetworkBehaviour {
         {
             Object.Destroy(ball.gameObject);
         }
+        balls.Clear();
 
         foreach(ForceArea wave in waves)
         {
             Object.Destroy(wave.gameObject);
         }
+        waves.Clear();
+
     }
 
     public void RevivePlayers()

@@ -59,7 +59,6 @@ public class BouncingBall : MonoBehaviour {
               ClampAngle();
             }
 
-            minSpeed += 0.5f * Time.smoothDeltaTime;
             if (speed <= minSpeed) {
                 speed = minSpeed;
             }

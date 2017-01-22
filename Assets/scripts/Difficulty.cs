@@ -7,6 +7,6 @@ public class Difficulty : MonoBehaviour {
   public float ballSpawnInterval;
 	// Update is called once per frame
 	void Update () {
-
+    //if(LevelState.singleton.)
 	}
 }
