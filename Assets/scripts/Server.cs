@@ -61,10 +61,6 @@ public class Server : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(!LevelState.singleton.gameActive && Input.GetKey("left shift") && Input.GetKey("s"))
-        {
-            LevelState.singleton.gameActive = true;
-        }
     }
 
 	void OnClientConnected(NetworkMessage netMsg)

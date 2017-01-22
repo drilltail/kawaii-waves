@@ -2,12 +2,20 @@
 using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class LevelState : NetworkBehaviour {
     public static LevelState singleton;
 
     public BouncingBall spawnedBall;
+    public GameObject spawnedBallRipples;
     public ForceArea spawnedWave;
+
+    public Text roundNumberText;
+    public Text leftTeamScoreText;
+    public Text rightTeamScoreText;
+    public Text leftTeamSurvivorsNumText;
+    public Text rightTeamSurvivorsNumText;
 
     [SyncVar]
     public bool gameActive = false;
@@ -17,14 +25,19 @@ public class LevelState : NetworkBehaviour {
 
     public int roundNumber;
     public float secondsPassedInRound;
+    public bool roundDecided;
+    public float endRoundAtTime;
 
     public int teamLeftScore;
     public int teamRightScore;
 
     public List<BouncingBall> balls = new List<BouncingBall>();
+    public List<GameObject> ballRipples = new List<GameObject>();
     public List<ForceArea> waves = new List<ForceArea>();
 
     public float secondsUntilNextBall;
+
+    public AudioSource pregameMusic;
 
     // Use this for initialization
     void Awake ()
@@ -39,9 +52,28 @@ public class LevelState : NetworkBehaviour {
 	
 	void Update ()
     {
+        if(Input.GetKey("left shift") && Input.GetKeyDown("s"))
+        {
+            StartNewGame();
+        }
+
+        if(roundNumber > 0)
+        {
+            roundNumberText.text = "Round " + roundNumber;
+        }
+        else
+        {
+            roundNumberText.text = "Waiting for players...";
+        }
+
+        leftTeamScoreText.text = teamLeftScore.ToString();
+        rightTeamScoreText.text = teamRightScore.ToString();
+        leftTeamSurvivorsNumText.text = GetPlayersAliveLeftTeam().ToString();
+        rightTeamSurvivorsNumText.text = GetPlayersAliveRightTeam().ToString();
+
         if(gameActive)
         {
-            if(roundStarted)
+            if(roundStarted && !roundDecided)
             {
                 if(secondsUntilNextBall <= 0)
                 {
@@ -49,7 +81,6 @@ public class LevelState : NetworkBehaviour {
                     secondsUntilNextBall = 5.0f;
                 }
 
-                secondsPassedInRound += Time.smoothDeltaTime;
                 secondsUntilNextBall -= Time.smoothDeltaTime;
 
                 if(GetPlayersAliveLeftTeam() <= 0 && GetPlayersAliveRightTeam() <= 0)
@@ -65,11 +96,24 @@ public class LevelState : NetworkBehaviour {
                     FinishRound(PlayerTeam.Right);
                 }
             }
+
+            if(roundStarted && roundDecided)
+            {
+                if(secondsPassedInRound >= endRoundAtTime)
+                {
+                    StartNextRound();
+                }
+            }
+
+            secondsPassedInRound += Time.smoothDeltaTime;
         }
     }
 
     public void StartNewGame()
     {
+        gameActive = true;
+        StartCoroutine(FadeOut.fadeOut(pregameMusic, 1f));
+
         print("Starting new game");
         InitializeGame();
         StartNextRound();
@@ -86,6 +130,8 @@ public class LevelState : NetworkBehaviour {
     {
         roundNumber++;
         secondsPassedInRound = 0;
+        roundDecided = false;
+        endRoundAtTime = -1;
 
         ClearLevelElements();
         RevivePlayers();
@@ -106,18 +152,25 @@ public class LevelState : NetworkBehaviour {
 
     public void FinishRound(PlayerTeam winningTeam)
     {
-        if(winningTeam == PlayerTeam.Left)
+        if(!roundDecided)
         {
-            teamLeftScore++;
-        }
-        else if(winningTeam == PlayerTeam.Right)
-        {
-            teamRightScore++;
-        }
+            roundDecided = true;
 
-        print("Team " + winningTeam.ToString() + " scored (" + teamLeftScore + " - " + teamRightScore + ")");
+            ScreenShaker.singleton.AddShake(2.0f, 4.0f);
 
-        StartNextRound();
+            if(winningTeam == PlayerTeam.Left)
+            {
+                teamLeftScore++;
+            }
+            else if(winningTeam == PlayerTeam.Right)
+            {
+                teamRightScore++;
+            }
+
+            print("Team " + winningTeam.ToString() + " scored (" + teamLeftScore + " - " + teamRightScore + ")");
+
+            endRoundAtTime = secondsPassedInRound + 3.0f;
+        }
     }
 
     public void ClearLevelElements()
@@ -129,12 +182,17 @@ public class LevelState : NetworkBehaviour {
         }
         balls.Clear();
 
+        foreach(GameObject ripple in ballRipples)
+        {
+            Object.Destroy(ripple.gameObject);
+        }
+        ballRipples.Clear();
+
         foreach(ForceArea wave in waves)
         {
             Object.Destroy(wave.gameObject);
         }
         waves.Clear();
-
     }
 
     public void RevivePlayers()
@@ -151,6 +209,11 @@ public class LevelState : NetworkBehaviour {
         print("Spawned ball");
         BouncingBall newBall = Instantiate(spawnedBall) as BouncingBall;
         balls.Add(newBall);
+
+        print("Spawned ball ripple particles");
+        GameObject newRipples = Instantiate(spawnedBallRipples) as GameObject;
+        ballRipples.Add(newRipples);
+        newRipples.GetComponent<StickToObject>().target = newBall.gameObject;
     }
 
     public int GetPlayersAliveLeftTeam()

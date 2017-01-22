@@ -36,31 +36,53 @@ public class BouncingBall : MonoBehaviour {
 	void Update () {
         if(LevelState.singleton.gameActive)
         {
-            position2d += velUnit * speed  * Time.smoothDeltaTime;
-            if (transform.position.x - myRenderer.bounds.extents.x < leftBound) {
-              transform.position = new Vector2(leftBound + myRenderer.bounds.extents.x, transform.position.y);
-              velUnit.x *= -1;
-              velUnit = (Quaternion.Euler(0, 0, Random.Range(-angleVariance, angleVariance)) * velUnit).normalized;
-              ClampAngle();
-            } else if (transform.position.x + myRenderer.bounds.extents.x > rightBound) {
-              transform.position = new Vector2(rightBound - myRenderer.bounds.extents.x, transform.position.y);
-              velUnit.x *= -1;
-              velUnit = (Quaternion.Euler(0, 0, Random.Range(-angleVariance, angleVariance)) * velUnit).normalized;
-              ClampAngle();
-            } if (transform.position.y - myRenderer.bounds.extents.y < bottomBound) {
-              transform.position = new Vector2(transform.position.x, bottomBound + myRenderer.bounds.extents.y);
-              velUnit.y *= -1;
-              velUnit = (Quaternion.Euler(0, 0, Random.Range(-angleVariance, angleVariance)) * velUnit).normalized;
-              ClampAngle();
-            } else if (transform.position.y + myRenderer.bounds.extents.y > topBound) {
-              transform.position = new Vector2(transform.position.x, topBound - myRenderer.bounds.extents.y);
-              velUnit.y *= -1;
-              velUnit = (Quaternion.Euler(0, 0, Random.Range(-angleVariance, angleVariance)) * velUnit).normalized;
-              ClampAngle();
+            bool triggerShake = false;
+
+            transform.Translate(velUnit * speed  * Time.smoothDeltaTime);
+            if (transform.position.x - myRenderer.bounds.extents.x < leftBound)
+            {
+                transform.position = new Vector2(leftBound + myRenderer.bounds.extents.x, transform.position.y);
+                velUnit.x *= -1;
+                velUnit = (Quaternion.Euler(0, 0, Random.Range(-angleVariance, angleVariance)) * velUnit).normalized;
+                ClampAngle();
+
+                triggerShake = true;
+            }
+            else if (transform.position.x + myRenderer.bounds.extents.x > rightBound)
+            {
+                transform.position = new Vector2(rightBound - myRenderer.bounds.extents.x, transform.position.y);
+                velUnit.x *= -1;
+                velUnit = (Quaternion.Euler(0, 0, Random.Range(-angleVariance, angleVariance)) * velUnit).normalized;
+                ClampAngle();
+
+                triggerShake = true;
+            }
+            if (transform.position.y - myRenderer.bounds.extents.y < bottomBound)
+            {
+                transform.position = new Vector2(transform.position.x, bottomBound + myRenderer.bounds.extents.y);
+                velUnit.y *= -1;
+                velUnit = (Quaternion.Euler(0, 0, Random.Range(-angleVariance, angleVariance)) * velUnit).normalized;
+                ClampAngle();
+
+                triggerShake = true;
+            }
+            else if (transform.position.y + myRenderer.bounds.extents.y > topBound)
+            {
+                transform.position = new Vector2(transform.position.x, topBound - myRenderer.bounds.extents.y);
+                velUnit.y *= -1;
+                velUnit = (Quaternion.Euler(0, 0, Random.Range(-angleVariance, angleVariance)) * velUnit).normalized;
+                ClampAngle();
+
+                triggerShake = true;
             }
 
             if (speed <= minSpeed) {
                 speed = minSpeed;
+            }
+
+            if(triggerShake)
+            {
+                ScreenShaker.singleton.AddShake(1.0f / 16.0f, speed * 0.01f);
             }
         }
 	}
