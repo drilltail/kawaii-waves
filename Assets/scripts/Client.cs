@@ -3,12 +3,19 @@ using UnityEngine.Networking;
 using System.Collections;
 
 public class Client : NetworkBehaviour {
-	NetworkClient client;
+    static public Client singleton;
+
+    NetworkClient client;
 	public NetworkManager manager;
 
-	// Use this for initialization
+    void Awake()
+    {
+        singleton = this;
+    }
+
 	void Start () {
-		client = manager.StartClient ();
+		client = manager.StartClient();
+        //client.RegisterHandler((short)CustomMessages.ClientReceivePlayerID, OnMsgClientReceivePlayerID);
 	}
 	
 	void Update () {

@@ -2,26 +2,61 @@
 using UnityEngine.Networking;
 using System.Collections.Generic;
 
-public class Server : MonoBehaviour {
+public class PlayerID
+{
+    public PlayerID()
+    {
+        this.id = -1;
+        this.team = PlayerTeam.Undeclared;
+    }
 
-	public enum Team {
-		Left, Right, Undeclared
-	}
+    public PlayerID(int playerID, PlayerTeam team)
+    {
+        this.id = playerID;
+        this.team = team;
+    }
+
+    public int id = -1;
+    public PlayerTeam team = PlayerTeam.Undeclared;
+
+    public override string ToString()
+    {
+        return "[id=" + id + ", team=" + team.ToString() + "]";
+    }
+}
+
+public enum PlayerTeam
+{
+	Left, Right, Undeclared
+}
+
+public class Server : MonoBehaviour {
+    public PlayerUnit spawnedPlayerUnit;
+
+    static public Server singleton;
+
+    List<NetworkConnection> connections = new List<NetworkConnection>();
+    public Dictionary<int, PlayerUnit> playerUnits = new Dictionary<int, PlayerUnit>();
+    public Dictionary<int, PaddleLocalState> paddleLocalStates = new Dictionary<int, PaddleLocalState>();
+    public List<int> leftTeamPlayerIDs = new List<int>();
+    public List<int> rightTeamPlayerIDs = new List<int>();
 
 	public NetworkManager manager;
 
 	public GameObject LeftSpawn;
 	public GameObject RightSpawn;
 
-	List<NetworkConnection> connections = new List<NetworkConnection>();
-	public List<Team> teams = new List<Team> ();
+    public int nextPlayerIDToAssign = 0;
+    public PlayerTeam nextTeamToAssign = PlayerTeam.Left;
 
-	// Use this for initialization
+    void Awake()
+    {
+        singleton = this;
+    }
+
 	void Start () {
 		print("StartServer: " + manager.StartServer());
 		NetworkServer.RegisterHandler (MsgType.Connect, OnClientConnected);
-		NetworkServer.RegisterHandler (MsgType.Highest + 1, OnLeftTeamDecide);
-		NetworkServer.RegisterHandler (MsgType.Highest + 2, OnRightTeamDecide);
 	}
 	
 	// Update is called once per frame
@@ -32,42 +67,22 @@ public class Server : MonoBehaviour {
         }
     }
 
-	NetworkConnection checkingEquality;
-
-	bool dumbEquals (NetworkConnection dumb){
-		if (checkingEquality == null) {
-			return false;
-		} else {
-			return dumb.Equals (checkingEquality);
-		}
-	}
-
 	void OnClientConnected(NetworkMessage netMsg)
     {
-        print("meow~");
+        print("nyan~");
 
 		connections.Add (netMsg.conn);
     }
 
-	void OnLeftTeamDecide(NetworkMessage netMsg) {
-		checkingEquality = netMsg.conn;
-		int connIndex = connections.FindIndex (dumbEquals);
-		if (connIndex == -1)
-			return;
-		teams [connIndex] = Team.Left;
-		//foreach( NetworkInstanceId id in netMsg.conn.clientOwnedObjects) {
-		//	NetworkServer.FindLocalObject (id).GetComponent<Paddle> ().SetPosition (LeftSpawn.transform.position);
-		//}
-	}
-
-	void OnRightTeamDecide(NetworkMessage netMsg) {
-		checkingEquality = netMsg.conn;
-		int connIndex = connections.FindIndex (dumbEquals);
-		if (connIndex == -1)
-			return;
-		teams [connIndex] = Team.Right;
-		//foreach( NetworkInstanceId id in netMsg.conn.clientOwnedObjects) {
-		//	NetworkServer.FindLocalObject (id).GetComponent<PlayerUnit> ().SetPosition (RightSpawn.transform.position);
-		//}
-	}
+    public void AlternateNextTeamToAssign()
+    {
+        if(nextTeamToAssign == PlayerTeam.Left)
+        {
+            nextTeamToAssign = PlayerTeam.Right;
+        }
+        else if(nextTeamToAssign == PlayerTeam.Right)
+        {
+            nextTeamToAssign = PlayerTeam.Left;
+        }
+    }
 }

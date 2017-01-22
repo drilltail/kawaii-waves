@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212810023900734072}
   - component: {fileID: 114189079601881030}
   m_Layer: 0
-  m_Name: monta-football-street-match-front
+  m_Name: Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
