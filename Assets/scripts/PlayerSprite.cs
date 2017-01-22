@@ -11,7 +11,11 @@ public class PlayerSprite : MonoBehaviour {
       vessel_internal = value;
       Destroy(vesselGO);
       vesselGO = Instantiate(vessels[vessel_internal]);
+      vesselGO.transform.position += transform.position;
       vesselGO.transform.parent = transform;
+      vesselGO.transform.localScale = new Vector3(vesselGO.transform.localScale.x * transform.localScale.x,
+                                                  vesselGO.transform.localScale.y * transform.localScale.y,
+                                                  vesselGO.transform.localScale.z * transform.localScale.z);
     } }
   private GameObject occupantGO;
   private int occupant_internal;
@@ -21,7 +25,11 @@ public class PlayerSprite : MonoBehaviour {
       occupant_internal = value;
       Destroy(occupantGO);
       occupantGO = Instantiate(occupants[occupant_internal]);
+      occupantGO.transform.position += transform.position;
       occupantGO.transform.parent = transform;
+      occupantGO.transform.localScale = new Vector3(occupantGO.transform.localScale.x * transform.localScale.x,
+                                                    occupantGO.transform.localScale.y * transform.localScale.y,
+                                                    occupantGO.transform.localScale.z * transform.localScale.z);
     } }
   public List<GameObject> vessels = new List<GameObject>();
   public List<GameObject> occupants = new List<GameObject>();
@@ -35,6 +43,6 @@ public class PlayerSprite : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		print(vesselGO.GetComponent<SpriteRenderer>().color);
 	}
 }

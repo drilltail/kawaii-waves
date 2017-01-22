@@ -18,6 +18,9 @@ public class PaddleLocalState : NetworkBehaviour
 
     public bool initialized = false;
 
+    public int framesExisting = 0;
+    public bool sentFancyYet = false;
+
     void Awake()
     {
     }
@@ -63,6 +66,17 @@ public class PaddleLocalState : NetworkBehaviour
 	
 	void Update ()
     {
+        if(framesExisting >= 5 && initialized && !sentFancyYet)
+        {
+            CmdSendPlayerFancy(playerID.id, CharacterDesignScreen.top, CharacterDesignScreen.bottom, CharacterDesignScreen.color);
+            sentFancyYet = true;
+        }
+
+        if(!isServer && initialized)
+        {
+            framesExisting++;
+        }
+
         // Initialize
         if(!isServer && !initialized)
         {
@@ -113,5 +127,12 @@ public class PaddleLocalState : NetworkBehaviour
     public void CmdSetInputMagnitude(float magnitude)
     {
         inputMagnitude = magnitude;
+    }
+
+    [Command]
+    public void CmdSendPlayerFancy(int playerID, int occupant, int vessel, Color vesselColor)
+    {
+        print("Received player fancy: id=" + playerID + ", occ=" + occupant + ", ves=" + vessel + ", clr=" + vesselColor);
+        Server.singleton.playerUnits[playerID].SetSprite(occupant, vessel, vesselColor);
     }
 }

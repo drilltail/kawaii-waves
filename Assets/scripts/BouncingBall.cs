@@ -36,7 +36,7 @@ public class BouncingBall : MonoBehaviour {
 	void Update () {
         if(LevelState.singleton.gameActive)
         {
-            position2d += velUnit * speed  * Time.smoothDeltaTime;
+            transform.Translate(velUnit * speed  * Time.smoothDeltaTime);
             if (transform.position.x - myRenderer.bounds.extents.x < leftBound) {
               transform.position = new Vector2(leftBound + myRenderer.bounds.extents.x, transform.position.y);
               velUnit.x *= -1;

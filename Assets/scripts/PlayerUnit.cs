@@ -12,6 +12,12 @@ public class PlayerUnit : MonoBehaviour
 
     public bool alive;
 
+    public bool firstFrame = true;
+
+    public Color vesselColor;
+    public bool vesselColorKnown = false;
+    public bool flipped = false;
+
 	void Start ()
     {
         alive = true;
@@ -19,7 +25,30 @@ public class PlayerUnit : MonoBehaviour
 	
 	void Update ()
     {
+        if(firstFrame)
+        {
+            HideSprite();
+        }
+
 		UpdateMovement();
+
+        if(vesselColorKnown)
+        {
+            PlayerSprite sprite = GetComponentInChildren<PlayerSprite>();
+            SpriteRenderer occupantRenderer = sprite.GetComponentInChildren<Occupant>().GetComponent<SpriteRenderer>();
+            SpriteRenderer vesselRenderer = sprite.GetComponentInChildren<Vessel>().GetComponent<SpriteRenderer>();
+
+            vesselRenderer.color = vesselColor;
+
+            if(playerID.team == PlayerTeam.Right && !flipped)
+            {
+                occupantRenderer.flipX = !occupantRenderer.flipX;
+                vesselRenderer.flipX = !vesselRenderer.flipX;
+                flipped = true;
+            }
+        }
+
+        firstFrame = false;
 	}
 
     private void UpdateMovement()
@@ -61,12 +90,58 @@ public class PlayerUnit : MonoBehaviour
 
     public void Die()
     {
-        print("dead");
-        alive = false;
+        if(alive)
+        {
+            print("dead");
+            alive = false;
+
+            Occupant occupant = GetComponentInChildren<Occupant>();
+            Vessel vessel = GetComponentInChildren<Vessel>();
+
+            if(playerID.team == PlayerTeam.Left)
+            {
+                occupant.deathVelocity = Quaternion.Euler(0, 0, -60 + 120 * Random.value) * new Vector2(-5, 0);
+                vessel.deathVelocity = Quaternion.Euler(0, 0, -60 + 120 * Random.value) * new Vector2(-5, 0);
+            }
+            else if(playerID.team == PlayerTeam.Right)
+            {
+                occupant.deathVelocity = Quaternion.Euler(0, 0, -60 + 120 * Random.value) * new Vector2(5, 0);
+                vessel.deathVelocity = Quaternion.Euler(0, 0, -60 + 120 * Random.value) * new Vector2(5, 0);
+            }
+
+            occupant.deathBouncesLeft = 2;
+            vessel.deathBouncesLeft = 2;
+        }
     }
 
     public void Revive()
     {
+        Occupant occupant = GetComponentInChildren<Occupant>();
+        Vessel vessel = GetComponentInChildren<Vessel>();
+
         alive = true;
+        occupant.Revive();
+        vessel.Revive();
+    }
+
+    public void HideSprite()
+    {
+        PlayerSprite sprite = GetComponentInChildren<PlayerSprite>();
+        SpriteRenderer occupantRenderer = sprite.GetComponentInChildren<Occupant>().GetComponent<SpriteRenderer>();
+        SpriteRenderer vesselRenderer = sprite.GetComponentInChildren<Vessel>().GetComponent<SpriteRenderer>();
+
+        occupantRenderer.color = Color.clear;
+        vesselRenderer.color = Color.clear;
+    }
+
+    public void SetSprite(int occupant, int vessel, Color vesselColor)
+    {
+        PlayerSprite sprite = GetComponentInChildren<PlayerSprite>();
+
+        sprite.occupant = occupant;
+        sprite.vessel = vessel;
+
+        this.vesselColor = vesselColor;
+        vesselColorKnown = true;
     }
 }
