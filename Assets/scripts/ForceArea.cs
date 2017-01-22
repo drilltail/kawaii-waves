@@ -19,6 +19,9 @@ public class ForceArea : MonoBehaviour {
 
   private void OnTriggerStay2D(Collider2D other) {
     print("did it");
-    other.gameObject.GetComponent<BouncingBall>().addVelocity((Vector2)(Quaternion.Euler(0, 0, angle) * Vector2.right * acceleration * Time.smoothDeltaTime), desiredSpeed);
+    if(other.GetComponent<BouncingBall>() != null)
+    {
+        other.gameObject.GetComponent<BouncingBall>().addVelocity((Vector2)(Quaternion.Euler(0, 0, angle) * Vector2.right * acceleration * Time.smoothDeltaTime), desiredSpeed);
+    }
   }
 }
