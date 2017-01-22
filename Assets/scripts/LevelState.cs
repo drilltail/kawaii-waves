@@ -153,6 +153,8 @@ public class LevelState : NetworkBehaviour {
         {
             roundDecided = true;
 
+            ScreenShaker.singleton.AddShake(2.0f, 4.0f);
+
             if(winningTeam == PlayerTeam.Left)
             {
                 teamLeftScore++;

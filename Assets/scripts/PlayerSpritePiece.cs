@@ -15,6 +15,8 @@ public class PlayerSpritePiece : MonoBehaviour
     public Quaternion originalRotation;
     public Vector3 originalLocalPosition;
 
+    public const float MIN_DEATH_VELOCITY = 5.0f;
+
     bool firstFrame = true;
 
 	protected virtual void Start()
@@ -44,10 +46,16 @@ public class PlayerSpritePiece : MonoBehaviour
             firstFrame = false;
         }
 
+        if(deathVelocity.magnitude >= MIN_DEATH_VELOCITY)
+        {
+            deathVelocity.Scale(new Vector2(0.95f, 0.95f));
+        }
+
 		if(deathBouncesLeft >= 0)
         {
-            transform.Translate(deathVelocity * Time.smoothDeltaTime);
+            transform.localPosition += new Vector3(deathVelocity.x * Time.smoothDeltaTime, deathVelocity.y * Time.smoothDeltaTime, 0);
             //transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + 180 * Time.smoothDeltaTime);
+            transform.RotateAround(transform.position, Vector3.forward, 180 * Time.smoothDeltaTime);
         }
 
         if(deathBouncesLeft > 0)

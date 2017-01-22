@@ -116,6 +116,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36482ea19ac235e44aa10b70a3a99b08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathParticles: {fileID: 1933612989142546, guid: 353c11da438695c41b6e4d8d9d3525b2,
+    type: 2}
   linkedLocalState: {fileID: 0}
   alive: 0
   firstFrame: 1
+  vesselColor: {r: 0, g: 0, b: 0, a: 0}
+  vesselColorKnown: 0
+  flipped: 0

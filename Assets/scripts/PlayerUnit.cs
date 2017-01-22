@@ -5,6 +5,8 @@ using UnityEngine;
 // Only spawn these on the server.
 public class PlayerUnit : MonoBehaviour
 {
+    public GameObject deathParticles;
+
     public PlayerID playerID = null;
     public PaddleLocalState linkedLocalState = null;
 
@@ -95,18 +97,21 @@ public class PlayerUnit : MonoBehaviour
             print("dead");
             alive = false;
 
+            ScreenShaker.singleton.AddShake(0.5f, 1.0f);
+            Instantiate(deathParticles, new Vector3(transform.position.x, transform.position.y, -5), Quaternion.identity);
+
             Occupant occupant = GetComponentInChildren<Occupant>();
             Vessel vessel = GetComponentInChildren<Vessel>();
 
             if(playerID.team == PlayerTeam.Left)
             {
-                occupant.deathVelocity = Quaternion.Euler(0, 0, -60 + 120 * Random.value) * new Vector2(-5, 0);
-                vessel.deathVelocity = Quaternion.Euler(0, 0, -60 + 120 * Random.value) * new Vector2(-5, 0);
+                occupant.deathVelocity = Quaternion.Euler(0, 0, -60 + 120 * Random.value) * new Vector2(-50, 0);
+                vessel.deathVelocity = Quaternion.Euler(0, 0, -60 + 120 * Random.value) * new Vector2(-50, 0);
             }
             else if(playerID.team == PlayerTeam.Right)
             {
-                occupant.deathVelocity = Quaternion.Euler(0, 0, -60 + 120 * Random.value) * new Vector2(5, 0);
-                vessel.deathVelocity = Quaternion.Euler(0, 0, -60 + 120 * Random.value) * new Vector2(5, 0);
+                occupant.deathVelocity = Quaternion.Euler(0, 0, -60 + 120 * Random.value) * new Vector2(50, 0);
+                vessel.deathVelocity = Quaternion.Euler(0, 0, -60 + 120 * Random.value) * new Vector2(50, 0);
             }
 
             occupant.deathBouncesLeft = 2;
