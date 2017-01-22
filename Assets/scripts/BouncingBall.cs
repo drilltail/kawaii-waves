@@ -57,11 +57,17 @@ public class BouncingBall : MonoBehaviour {
     }
 	}
 
-  void ClampAngle() {
+  public void ClampAngle() {
     float angle = Vector2.Angle(Vector2.right*Mathf.Sign(velUnit.x), velUnit);
     if(angle > angleBound) {
       angle = angle - angleBound;
       velUnit = (Quaternion.Euler(0, 0, -angle*Mathf.Sign(velUnit.x)*Mathf.Sign(velUnit.y)) * velUnit).normalized;
     }
+  }
+
+  public void addVelocity(Vector2 change, float speedLimit) {
+    Vector2 newVel = change + (velUnit * speed);
+    velUnit = newVel.normalized;
+    speed = Mathf.Min(newVel.magnitude,speedLimit);
   }
 }
