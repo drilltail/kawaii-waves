@@ -2,12 +2,19 @@
 using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class LevelState : NetworkBehaviour {
     public static LevelState singleton;
 
     public BouncingBall spawnedBall;
     public ForceArea spawnedWave;
+
+    public Text roundNumberText;
+    public Text leftTeamScoreText;
+    public Text rightTeamScoreText;
+    public Text leftTeamSurvivorsNumText;
+    public Text rightTeamSurvivorsNumText;
 
     [SyncVar]
     public bool gameActive = false;
@@ -39,6 +46,25 @@ public class LevelState : NetworkBehaviour {
 	
 	void Update ()
     {
+        if(Input.GetKey("left shift") && Input.GetKeyDown("s"))
+        {
+            StartNewGame();
+        }
+
+        if(roundNumber > 0)
+        {
+            roundNumberText.text = "Round " + roundNumber;
+        }
+        else
+        {
+            roundNumberText.text = "Waiting for players...";
+        }
+
+        leftTeamScoreText.text = teamLeftScore.ToString();
+        rightTeamScoreText.text = teamRightScore.ToString();
+        leftTeamSurvivorsNumText.text = GetPlayersAliveLeftTeam().ToString();
+        rightTeamSurvivorsNumText.text = GetPlayersAliveRightTeam().ToString();
+
         if(gameActive)
         {
             if(roundStarted)
@@ -70,6 +96,8 @@ public class LevelState : NetworkBehaviour {
 
     public void StartNewGame()
     {
+        gameActive = true;
+
         print("Starting new game");
         InitializeGame();
         StartNextRound();
@@ -127,11 +155,13 @@ public class LevelState : NetworkBehaviour {
         {
             Object.Destroy(ball.gameObject);
         }
+        balls.Clear();
 
         foreach(ForceArea wave in waves)
         {
             Object.Destroy(wave.gameObject);
         }
+        waves.Clear();
     }
 
     public void RevivePlayers()

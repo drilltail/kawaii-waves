@@ -21,6 +21,9 @@ GameObject:
   - component: {fileID: 4335052219050204}
   - component: {fileID: 212810023900734072}
   - component: {fileID: 114189079601881030}
+  - component: {fileID: 50718557232661384}
+  - component: {fileID: 61671292099626868}
+  - component: {fileID: 114937284681104150}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -35,12 +38,46 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1502195811856762}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.85, y: 0.58, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.4691326, y: 0.42734316, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50718557232661384
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1502195811856762}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
+--- !u!61 &61671292099626868
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1502195811856762}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 2.5, y: 2.5}
 --- !u!114 &114189079601881030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -55,6 +92,38 @@ MonoBehaviour:
   speed: 4.75
   angleBound: 45
   angleVariance: 3
+--- !u!114 &114937284681104150
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1502195811856762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 157
+    i1: 133
+    i2: 90
+    i3: 92
+    i4: 95
+    i5: 251
+    i6: 249
+    i7: 148
+    i8: 186
+    i9: 16
+    i10: 86
+    i11: 15
+    i12: 80
+    i13: 25
+    i14: 146
+    i15: 46
+  m_ServerOnly: 1
+  m_LocalPlayerAuthority: 0
 --- !u!212 &212810023900734072
 SpriteRenderer:
   m_ObjectHideFlags: 1

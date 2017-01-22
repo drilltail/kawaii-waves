@@ -45,12 +45,14 @@ public class PaddleLocalState : NetworkBehaviour
                 playerUnit.transform.position = new Vector3(Server.singleton.LeftSpawn.transform.position.x + xAdjustment,
                                                             Server.singleton.LeftSpawn.transform.position.y,
                                                             0);
+                Server.singleton.leftTeamPlayerIDs.Add(playerID.id);
             }
             else if(playerUnit.playerID.team == PlayerTeam.Right)
             {
                 playerUnit.transform.position = new Vector3(Server.singleton.RightSpawn.transform.position.x - xAdjustment,
                                                             Server.singleton.RightSpawn.transform.position.y,
                                                             0);
+                Server.singleton.rightTeamPlayerIDs.Add(playerID.id);
             }
 
             Server.singleton.playerUnits[playerID.id] = playerUnit;
