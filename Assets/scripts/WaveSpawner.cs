@@ -39,7 +39,7 @@ public class WaveSpawner : MonoBehaviour {
         forceArea.angle = angle;
         forceArea.acceleration = 10f * (speed/maxSpeed);
         StartCoroutine(MoveWave(wave, duration, angle, speed));
-        LevelState.singleton.waves.Add(forceArea);
+        //LevelState.singleton.waves.Add(forceArea);
       }
     }
 	}

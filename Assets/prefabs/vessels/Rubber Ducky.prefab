@@ -83,6 +83,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0043dc267f9a6604191c06a1daacce2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathVelocity: {x: 0, y: 0}
+  deathBouncesLeft: -1
+  originalRotation: {x: 0, y: 0, z: 0, w: 0}
+  originalLocalPosition: {x: 0, y: 0, z: 0}
 --- !u!198 &198858924604048718
 ParticleSystem:
   m_ObjectHideFlags: 1

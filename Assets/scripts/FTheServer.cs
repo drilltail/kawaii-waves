@@ -7,15 +7,14 @@ public class FTheServer : NetworkBehaviour {
 
 	// Use this for initialization
 	void Start () {
+	}
+	
+	// Update is called once per frame
+	void Update () {
 		if(isServer)
         {
             // f the server
             Object.Destroy(gameObject);
         }
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 }

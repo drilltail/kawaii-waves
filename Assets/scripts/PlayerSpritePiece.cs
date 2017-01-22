@@ -65,6 +65,7 @@ public class PlayerSpritePiece : MonoBehaviour
                 print("deathbounce: left");
                 deathBouncesLeft--;
                 deathVelocity.x *= -1;
+                LevelState.singleton.bounce.Play();
             }
 
             if(transform.position.x >= rightBound && deathVelocity.x > 0)
@@ -72,6 +73,7 @@ public class PlayerSpritePiece : MonoBehaviour
                 print("deathbounce: right");
                 deathBouncesLeft--;
                 deathVelocity.x *= -1;
+                LevelState.singleton.bounce.Play();
             }
 
             if(transform.position.y <= bottomBound && deathVelocity.y < 0)
@@ -79,6 +81,7 @@ public class PlayerSpritePiece : MonoBehaviour
                 print("deathbounce: bottom");
                 deathBouncesLeft--;
                 deathVelocity.y *= -1;
+                LevelState.singleton.bounce.Play();
             }
 
             if(transform.position.y >= topBound && deathVelocity.y > 0)
@@ -86,6 +89,7 @@ public class PlayerSpritePiece : MonoBehaviour
                 print("deathbounce: top");
                 deathBouncesLeft--;
                 deathVelocity.y *= -1;
+                LevelState.singleton.bounce.Play();
             }
         }
 	}

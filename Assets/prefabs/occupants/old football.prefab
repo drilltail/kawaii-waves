@@ -52,6 +52,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6a54cb7dbc97640ab84b189e1cf33f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathVelocity: {x: 0, y: 0}
+  deathBouncesLeft: -1
+  originalRotation: {x: 0, y: 0, z: 0, w: 0}
+  originalLocalPosition: {x: 0, y: 0, z: 0}
 --- !u!212 &212153166392024390
 SpriteRenderer:
   m_ObjectHideFlags: 1

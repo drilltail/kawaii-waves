@@ -37,8 +37,11 @@ public class LevelState : NetworkBehaviour {
 
     public float secondsUntilNextBall;
 
-    // Use this for initialization
-    void Awake ()
+    public AudioSource pregameMusic;
+  public AudioSource playerDie;
+  public AudioSource bounce;
+  // Use this for initialization
+  void Awake ()
     {
         singleton = this;
         InitializeGame();
@@ -110,6 +113,7 @@ public class LevelState : NetworkBehaviour {
     public void StartNewGame()
     {
         gameActive = true;
+        StartCoroutine(FadeOut.fadeOut(pregameMusic, 1f));
 
         print("Starting new game");
         InitializeGame();

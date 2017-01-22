@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class PaddleLocalState : NetworkBehaviour
 {
-    private float upwardsMin   = 480 - 180;
+    private float upwardsMin   = 480 - 210;
     private float upwardsMax   = 480;
     private float downwardsMin = 0;
-    private float downwardsMax = 180;
+    private float downwardsMax = 210;
 
     [SyncVar]
     public float inputMagnitude;
@@ -20,6 +20,9 @@ public class PaddleLocalState : NetworkBehaviour
 
     public int framesExisting = 0;
     public bool sentFancyYet = false;
+
+    [SyncVar]
+    public int framesToVibrate = 0;
 
     void Awake()
     {

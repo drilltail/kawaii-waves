@@ -96,6 +96,9 @@ public class PlayerUnit : MonoBehaviour
         {
             print("dead");
             alive = false;
+            //GetComponent<AudioSource>().Play();
+            Server.singleton.paddleLocalStates[playerID.id].framesToVibrate = 120;
+            LevelState.singleton.playerDie.Play();
 
             ScreenShaker.singleton.AddShake(0.5f, 1.0f);
             Instantiate(deathParticles, new Vector3(transform.position.x, transform.position.y, -5), Quaternion.identity);
