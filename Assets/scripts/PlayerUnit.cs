@@ -64,4 +64,9 @@ public class PlayerUnit : MonoBehaviour
         print("dead");
         alive = false;
     }
+
+    public void Revive()
+    {
+        alive = true;
+    }
 }
