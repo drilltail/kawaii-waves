@@ -38,9 +38,10 @@ public class LevelState : NetworkBehaviour {
     public float secondsUntilNextBall;
 
     public AudioSource pregameMusic;
-
-    // Use this for initialization
-    void Awake ()
+  public AudioSource playerDie;
+  public AudioSource bounce;
+  // Use this for initialization
+  void Awake ()
     {
         singleton = this;
         InitializeGame();
