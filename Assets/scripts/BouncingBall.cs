@@ -7,6 +7,7 @@ public class BouncingBall : MonoBehaviour {
   public float speed = 10f;
   public float angleBound = 70f;
   public float angleVariance = 1f;
+  public float minSpeed = 3f;
 
   float leftBound;
   float rightBound;
@@ -58,7 +59,9 @@ public class BouncingBall : MonoBehaviour {
               ClampAngle();
             }
 
-            speed += 1.0f * Time.smoothDeltaTime;
+            if (speed <= minSpeed) {
+                speed = minSpeed;
+            }
         }
 	}
 
@@ -71,8 +74,10 @@ public class BouncingBall : MonoBehaviour {
   }
 
   public void addVelocity(Vector2 change, float speedLimit) {
-    Vector2 newVel = change + (velUnit * speed);
-    velUnit = newVel.normalized;
-    speed = Mathf.Min(newVel.magnitude,speedLimit);
+      Vector2 newVel = change + (velUnit * speed);
+      velUnit = newVel.normalized;
+    if (speed <= speedLimit) {
+      speed = newVel.magnitude;
+    }
   }
 }

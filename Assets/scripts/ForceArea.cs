@@ -5,7 +5,7 @@ using UnityEngine;
 public class ForceArea : MonoBehaviour {
 
   public float angle = 30;
-  public float acceleration = 1;
+  public float acceleration = 10;
   public float desiredSpeed = 20;
 	// Use this for initialization
 	void Start () {
