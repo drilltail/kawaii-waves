@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class PaddleLocalState : NetworkBehaviour
 {
-    private float upwardsMin   = 480 - 240;
+    private float upwardsMin   = 480 - 180;
     private float upwardsMax   = 480;
     private float downwardsMin = 0;
-    private float downwardsMax = 240;
+    private float downwardsMax = 180;
 
     [SyncVar]
     public float inputMagnitude;
