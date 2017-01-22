@@ -26,7 +26,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4313510229305680
 Transform:
   m_ObjectHideFlags: 1
@@ -51,7 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 267d5836bf864664fab3cdeb8a8b7dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnedPlayerUnit: {fileID: 0}
+  leftTeamPlayerIDs: 
+  rightTeamPlayerIDs: 
   manager: {fileID: 0}
   LeftSpawn: {fileID: 0}
   RightSpawn: {fileID: 0}
-  teams: 
+  nextPlayerIDToAssign: 0
+  nextTeamToAssign: 0
